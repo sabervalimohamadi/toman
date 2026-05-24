@@ -1,0 +1,6 @@
+node_modules/
+platforms/
+hooks/
+.nativescript-cache/
+*.js.map
+dist/

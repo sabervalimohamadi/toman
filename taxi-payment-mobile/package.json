@@ -1,0 +1,31 @@
+{
+  "name": "taxi-payment-mobile",
+  "version": "0.0.0",
+  "scripts": {
+    "android": "ns run android --no-hmr",
+    "ios": "ns run ios --no-hmr",
+    "debug:android": "ns debug android",
+    "debug:ios": "ns debug ios",
+    "clean": "ns clean"
+  },
+  "dependencies": {
+    "@nativescript/core": "~8.8.0",
+    "@nativescript/secure-storage": "~3.0.0",
+    "@nativescript/barcode-scanner": "~4.0.0",
+    "@nativescript/camera": "~4.0.0",
+    "axios": "^1.6.0",
+    "qrcode": "^1.5.3",
+    "nativescript-vue": "~3.0.0",
+    "pinia": "^2.1.0"
+  },
+  "devDependencies": {
+    "@nativescript/android": "~8.8.0",
+    "@nativescript/ios": "~8.8.0",
+    "@nativescript/types-android": "~8.8.0",
+    "@nativescript/types-ios": "~8.8.0",
+    "@nativescript/webpack": "~5.0.0",
+    "@types/qrcode": "^1.5.0",
+    "@types/node": "~18.0.0",
+    "typescript": "~5.4.0"
+  }
+}

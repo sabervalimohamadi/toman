@@ -1,0 +1,97 @@
+@import '@nativescript/theme/css/core.css';
+
+/* ── Color tokens matching the web teal palette ── */
+:root {
+  --color-primary: #0d9488;
+  --color-primary-dark: #0f766e;
+  --color-primary-light: #ccfbf1;
+  --color-danger: #ef4444;
+  --color-success: #14b8a6;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-bg: #f9fafb;
+  --color-card: #ffffff;
+  --color-border: #e5e7eb;
+  --radius: 12;
+  --font-family: 'Vazirmatn', sans-serif;
+}
+
+Page {
+  background-color: var(--color-bg);
+  font-family: var(--font-family);
+}
+
+Label {
+  font-family: var(--font-family);
+  color: var(--color-text);
+}
+
+TextField {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background-color: var(--color-card);
+  border-color: var(--color-border);
+  border-width: 1.5;
+  border-radius: var(--radius);
+  padding: 14 16;
+  font-size: 14;
+  placeholder-color: var(--color-text-muted);
+}
+
+TextField:focus {
+  border-color: var(--color-primary);
+}
+
+Button {
+  font-family: var(--font-family);
+  font-size: 14;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 14 20;
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+Button.secondary {
+  background-color: #f3f4f6;
+  color: var(--color-text);
+}
+
+Button.danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.card {
+  background-color: var(--color-card);
+  border-radius: var(--radius);
+  padding: 16;
+  margin: 8 16;
+}
+
+.card-teal {
+  background-color: var(--color-primary);
+  border-radius: var(--radius);
+  padding: 24;
+  margin: 8 16;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+  font-size: 13;
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.section-title {
+  font-size: 16;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 16 16 8;
+}
