@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { BarcodeScanner } from '@nativescript/barcode-scanner'
+import { BarcodeScanner } from 'nativescript-barcode-scanner'
 import { Dialogs } from '@nativescript/core'
 import { usePaymentStore } from '../../stores/payment.store'
 import { useToast } from '../../composables/useToast'
@@ -9,19 +9,21 @@ import BaseButton from '../../components/BaseButton.vue'
 const payment = usePaymentStore()
 const { showToast } = useToast()
 
+const scanner = new BarcodeScanner()
 const scanning = ref(false)
 const scannedToken = ref('')
 
 async function startScan() {
   scanning.value = true
   try {
-    const result = await BarcodeScanner.scan({
+    const result = await scanner.scan({
       formats: 'QR_CODE',
       cancelLabel: 'بستن',
       message: 'کد QR راننده را اسکن کنید',
       preferFrontCamera: false,
       showFlipCameraButton: false,
       showTorchButton: true,
+      resultDisplayDuration: 0,
     })
     if (!result?.text) return
     scannedToken.value = result.text
