@@ -11,7 +11,6 @@
   "dependencies": {
     "@nativescript/core": "~8.8.0",
     "@nativescript/secure-storage": "~3.0.0",
-    "nativescript-barcode-scanner": "~5.0.0",
     "axios": "^1.6.0",
     "qrcode": "^1.5.3",
     "nativescript-vue": "~3.0.0",

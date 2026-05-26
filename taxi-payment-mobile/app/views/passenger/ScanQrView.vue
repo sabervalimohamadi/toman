@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { BarcodeScanner } from 'nativescript-barcode-scanner'
 import { Dialogs } from '@nativescript/core'
 import { usePaymentStore } from '../../stores/payment.store'
 import { useToast } from '../../composables/useToast'
@@ -9,48 +8,40 @@ import BaseButton from '../../components/BaseButton.vue'
 const payment = usePaymentStore()
 const { showToast } = useToast()
 
-const scanner = new BarcodeScanner()
 const scanning = ref(false)
-const scannedToken = ref('')
 
 async function startScan() {
   scanning.value = true
   try {
-    const result = await scanner.scan({
-      formats: 'QR_CODE',
-      cancelLabel: 'بستن',
-      message: 'کد QR راننده را اسکن کنید',
-      preferFrontCamera: false,
-      showFlipCameraButton: false,
-      showTorchButton: true,
-      resultDisplayDuration: 0,
+    const tokenRes = await Dialogs.prompt({
+      title: 'اسکن QR راننده',
+      message: 'کد QR راننده را وارد یا جای‌گذاری کنید',
+      okButtonText: 'ادامه',
+      cancelButtonText: 'انصراف',
     })
-    if (!result?.text) return
-    scannedToken.value = result.text
-    await promptAmount()
+    if (!tokenRes.result || !tokenRes.text?.trim()) return
+
+    const amountRes = await Dialogs.prompt({
+      title: 'مبلغ پرداختی',
+      message: 'مبلغ کرایه را به تومان وارد کنید',
+      okButtonText: 'پرداخت',
+      cancelButtonText: 'انصراف',
+      inputType: 'number',
+    })
+    if (!amountRes.result || !amountRes.text) return
+
+    const amount = Number(amountRes.text)
+    if (!amount || amount <= 0) {
+      showToast('مبلغ معتبر وارد کنید', 'error')
+      return
+    }
+
+    await payment.payByQR(tokenRes.text.trim(), amount)
   } catch {
-    // user cancelled or scan failed
+    // user cancelled
   } finally {
     scanning.value = false
   }
-}
-
-async function promptAmount() {
-  const res = await Dialogs.prompt({
-    title: 'مبلغ پرداختی',
-    message: 'مبلغ کرایه را به تومان وارد کنید',
-    okButtonText: 'پرداخت',
-    cancelButtonText: 'انصراف',
-    inputType: 'number',
-  })
-  if (!res.result || !res.text) return
-  const amount = Number(res.text)
-  if (!amount || amount <= 0) {
-    showToast('مبلغ معتبر وارد کنید', 'error')
-    return
-  }
-  await payment.payByQR(scannedToken.value, amount)
-  scannedToken.value = ''
 }
 </script>
 
@@ -66,7 +57,7 @@ async function promptAmount() {
       />
 
       <Label
-        text="اسکن کد QR راننده"
+        text="پرداخت با QR راننده"
         fontSize="20"
         fontWeight="bold"
         color="#111827"
@@ -75,7 +66,7 @@ async function promptAmount() {
       />
 
       <Label
-        text="دوربین را روی کد QR راننده نگه دارید"
+        text="کد QR راننده را اسکن یا وارد کنید و مبلغ را تأیید کنید"
         fontSize="13"
         color="#6b7280"
         textAlignment="center"
@@ -84,9 +75,9 @@ async function promptAmount() {
       />
 
       <BaseButton
-        label="شروع اسکن"
-        :loading="scanning || payment.loading"
-        :disabled="scanning || payment.loading"
+        label="پرداخت با QR"
+        :loading="payment.loading"
+        :disabled="payment.loading"
         @tap="startScan"
       />
 
